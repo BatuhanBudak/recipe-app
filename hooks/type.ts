@@ -1,6 +1,9 @@
 export const ALL_MEALS_URL =
   "https://www.themealdb.com/api/json/v1/1/search.php?s";
 
+export const LOOK_UP_BY_ID =
+  "https://www.themealdb.com/api/json/v1/1/lookup.php?i";
+
 export type Meal = {
   idMeal: string;
   strMeal: string;
@@ -54,5 +57,5 @@ export type Meal = {
   strSource: string | null;
   strImageSource: string | null;
   strCreativeCommonsConfirmed: string | null;
-  dateModified: null;
+  dateModified: string | null;
 };

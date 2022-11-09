@@ -24,21 +24,31 @@ export default function Home() {
     data: randomMeal,
     isLoading: randomMealLoading,
     isFetching: randomMealFetching,
-  } = useFetchRandomMeal();
+    refetch,
+  } = useFetchRandomMeal(isRandomMeal);
 
   if (error || mealError) return <div>Something went wrong!</div>;
 
   return (
     <main className="relative h-screen overflow-y-scroll">
-      <Header setQuery={setQuery} setIsRandomMeal={setIsRandomMeal} />
+      <Header
+        setQuery={setQuery}
+        setIsRandomMeal={setIsRandomMeal}
+        refetch={refetch}
+      />
       <Grid
-        className="p-4 max-w-7xl m-auto"
-        title={query ? `Search Results for ${query}` : "Popular Meals"}
+        className="p-4 max-w-7xl m-auto "
+        title={
+          query && !isRandomMeal
+            ? `Search Results for ${query}`
+            : !query && isRandomMeal
+            ? "Random Meal"
+            : "Popular Meals"
+        }
       >
-        {!query &&
-          isRandomMeal &&
-          randomMeal?.data.meals.map((meal: Meal) => (
-            <Link key={meal.idMeal} href={`/${meal.idMeal}}`}>
+        {isRandomMeal &&
+          randomMeal?.data.meals?.map((meal: Meal) => (
+            <Link key={meal.idMeal} href={`/${meal.idMeal}`}>
               <div className="cursor-pointer hover:opacity-80 duration-300">
                 <Card
                   imgUrl={meal.strMealThumb ?? "/no_image.jpg"}
@@ -49,8 +59,8 @@ export default function Home() {
           ))}
         {!isRandomMeal &&
           !query &&
-          data?.data.meals.map((meal: Meal) => (
-            <Link key={meal.idMeal} href={`/${meal.idMeal}}`}>
+          data?.data.meals?.map((meal: Meal) => (
+            <Link key={meal.idMeal} href={`/${meal.idMeal}`}>
               <div className="cursor-pointer hover:opacity-80 duration-300">
                 <Card
                   imgUrl={meal.strMealThumb ?? "/no_image.jpg"}
@@ -61,8 +71,8 @@ export default function Home() {
           ))}
         {!isRandomMeal &&
           query &&
-          mealData?.data.meals.map((meal: Meal) => (
-            <Link key={meal.idMeal} href={`/${meal.idMeal}}`}>
+          mealData?.data.meals?.map((meal: Meal) => (
+            <Link key={meal.idMeal} href={`/${meal.idMeal}`}>
               <div className="cursor-pointer hover:opacity-80 duration-300">
                 <Card
                   imgUrl={meal.strMealThumb ?? "/no_image.jpg"}

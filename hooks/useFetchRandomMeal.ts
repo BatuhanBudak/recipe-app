@@ -7,10 +7,11 @@ const fetchRandomMealData = async () => {
   return axios.get(randomMealUrl);
 };
 
-const useFetchRandomMeal = () => {
+const useFetchRandomMeal = (shouldFetch: boolean) => {
   return useQuery("random", fetchRandomMealData, {
     refetchOnWindowFocus: false,
     staleTime: 60 * 1000 * 10,
+    enabled: shouldFetch,
   });
 };
 
